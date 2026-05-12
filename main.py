@@ -19,18 +19,24 @@ async def on_ready():
     print(f"Bot online sebagai {bot.user}")
 
 
-@bot.command()
+@bot.group()
+async def afk(ctx):
+    pass
+
+
+@afk.command()
 async def join(ctx):
     if ctx.author.voice is None:
         await ctx.send("Kamu harus berada di voice channel.")
         return
 
     channel = ctx.author.voice.channel
-    await channel.connect()
+    vc = await channel.connect()
+    await vc.guild.change_voice_state(channel=channel, self_mute=True, self_deaf=True)
     await ctx.send(f"Bergabung ke **{channel.name}** dan diam di sini 24/7.")
 
 
-@bot.command()
+@afk.command()
 async def leave(ctx):
     if ctx.voice_client is None:
         await ctx.send("Bot tidak sedang di voice channel.")
