@@ -1,0 +1,7 @@
+services:
+  afk-bot:
+    build: .
+    container_name: afk-bot
+    restart: unless-stopped
+    environment:
+      - DISCORD_TOKEN
